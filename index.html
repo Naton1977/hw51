@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/vendor/fontawesome-free-5.14.0-web/css/all.css">
+</head>
+<body>
+<div id="containerImg"></div>
+<div id="dotContainer"></div>
+<div id="buttonContainer">
+    <div id="button1"><i class="fas fa-step-backward"></i></div>
+    <div id="button2"><i class="fas fa-backward"></i></div>
+    <div id="button3"><i id="remove1" class="fas fa-play"></i></div>
+    <div id="button4"><i class="fas fa-forward"></i></div>
+    <div id="button5"><i class="fas fa-step-forward"></i></div>
+</div>
+
+<script>
+
+    let massWayImg = [];
+    massWayImg[0] = "assets/img/belka-pushistik-ozornitsa-gryzun.jpg";
+    massWayImg[1] = "assets/img/derevia-peizazh-gory-priroda-ozero-otrazhenie-kamni-eli-kana.jpg";
+    massWayImg[2] = "assets/img/holesovice-praha-hlavni-mesto-praha.jpg";
+    massWayImg[3] = "assets/img/priroda-peizazh-more-pliazh-bereg-pesok-lodka-zakat-solntse.jpg";
+    massWayImg[4] = "assets/img/reka-zakat-lodka-nebo.jpg";
+    massWayImg[5] = "assets/img/voda-otrazhenie-priroda.jpg";
+
+
+    let containerPictures = function () {
+        for (let i = 0; i < massWayImg.length; i++) {
+            let img = document.createElement("img");
+            img.id = "img";
+            img.src = massWayImg[i];
+            img.alt = "";
+            img.style.opacity = 0;
+            img.style.position = "absolute";
+            img.style.width = 100 + "%";
+            img.style.height = 100 + "%";
+            let imgCont = document.getElementById('containerImg');
+            imgCont.appendChild(img);
+        }
+
+    }
+
+    let addExpand = function () {
+        let elem = document.createElement("i");
+        elem.className = "fas fa-expand-arrows-alt";
+        elem.style.position = "absolute";
+        elem.style.fontSize = 40 + "px";
+        elem.style.color = "rgb(44,157,194)"
+        elem.style.left = 73 + "%";
+        elem.style.top = 20 + "%";
+        elem.id = "expand";
+        elem.style.cursor = "pointer";
+        document.body.appendChild(elem);
+    }
+
+    let addDot = function () {
+        for (let i = 0; i < massWayImg.length; i++) {
+            let dot = document.createElement("div");
+            dot.id = "dot" + i;
+            dot.style.width = 15 + "px";
+            dot.style.height = 15 + "px";
+
+            let cont = document.getElementById("dotContainer");
+            cont.appendChild(dot);
+            if (i > 0) {
+                dot.style.marginLeft = 10 + "px";
+            }
+        }
+    }
+    let count = 0;
+    let dotElem = document.getElementById("dotContainer").childNodes;
+    let contImg = document.getElementById('containerImg').childNodes;
+
+    let switchPictures = function (count1) {
+        let localCount = count1;
+        for (let i = 0; i < massWayImg.length; i++) {
+            dotElem[i].style.background = "white";
+            contImg[i].style.opacity = 0;
+        }
+
+        contImg[localCount].style.opacity = "1";
+        dotElem[localCount].style.background = "rgb(44,157,194)";
+    }
+    const body = document.body;
+
+
+    let eventFunction1 = function (e) {
+        for (let i = 0; i < massWayImg.length; i++) {
+            let dot = "dot" + i;
+            if (e.target.id === dot) {
+                switchPictures(i)
+            }
+        }
+    }
+
+    let addPlayButton = function () {
+        let buttonPlay = document.getElementById("button3");
+        let elemI = document.createElement("i");
+        elemI.className = "fas fa-play";
+        elemI.id = "remove1";
+        buttonPlay.appendChild(elemI);
+        let remove = document.getElementById("remove2");
+        remove.remove();
+    }
+
+    let addStopButton = function () {
+        let buttonPlay = document.getElementById("button3");
+        let elemI = document.createElement("i");
+        elemI.className = "fas fa-stop";
+        elemI.id = "remove2";
+        buttonPlay.appendChild(elemI);
+        let remove = document.getElementById("remove1");
+        remove.remove();
+    }
+
+    let idPlay;
+    let eventFunction2 = function (e) {
+        for (let i = 1; i < 6; i++) {
+            let but = "button" + i;
+            if (e.target.id === but || e.target.parentNode.id === but) {
+                switch (but) {
+
+                    case 'button1':
+                        switchPictures(0);
+                        break;
+
+                    case 'button2' :
+                        let localCount1 = 0;
+                        let elem1 = document.getElementById("containerImg").childNodes;
+                        for (let j = 0; j < massWayImg.length; j++) {
+                            if (elem1[j].style.opacity === "1") {
+                                localCount1 = j;
+                            }
+                        }
+                        if (localCount1 > 0) {
+                            switchPictures(localCount1 - 1);
+                            subscriberPushButton2(1);
+                        }
+                        if (localCount1 === 1) {
+                            subscriberPushButton2(2);
+                        }
+                        break;
+
+                    case 'button3':
+                        let change = false;
+                        let buttonPlay = document.getElementById("button3");
+                        let classElem = buttonPlay.childNodes[0];
+                        if (classElem.className === "fas fa-stop") {
+                            change = true;
+                            clearInterval(idPlay);
+                        }
+                        if (change) {
+                            addPlayButton();
+                            change = false;
+                        }
+                        if (classElem.className === "fas fa-play") {
+                            addStopButton();
+                            let countPushPlay = 1;
+                            if (countPushPlay === 1) {
+                                let localCount2 = 0;
+                                let elem2 = document.getElementById("containerImg").childNodes;
+                                for (let t = 0; t < massWayImg.length; t++) {
+                                    if (elem2[t].style.opacity === "1") {
+                                        localCount2 = t;
+                                    }
+                                }
+                                let funcButton3 = function () {
+                                    if (localCount2 < massWayImg.length - 1) {
+                                        localCount2++;
+                                        subscriberPushButton3(1);
+                                        switchPictures(localCount2);
+                                    }
+                                    if (localCount2 === (massWayImg.length - 1)) {
+                                        subscriberPushButton3(2);
+                                        addPlayButton();
+                                        clearInterval(idPlay);
+                                        clearInterval(idPlay);
+                                    }
+                                }
+                                idPlay = setInterval(funcButton3, 1000);
+                            }
+                        }
+
+                        break;
+
+
+                    case 'button4':
+                        let localCount3 = 0;
+                        let elem3 = document.getElementById("containerImg").childNodes;
+                        for (let k = 0; k < massWayImg.length; k++) {
+                            if (elem3[k].style.opacity === "1") {
+                                localCount3 = k;
+                            }
+                        }
+                        if (localCount3 < massWayImg.length - 1) {
+                            switchPictures(localCount3 + 1);
+                            subscriberPushButton4(1);
+                        }
+
+                        if (localCount3 === massWayImg.length - 2) {
+                            subscriberPushButton4(2);
+                        }
+                        break;
+
+                    case 'button5':
+                        switchPictures(massWayImg.length - 1);
+                        break;
+                }
+            }
+        }
+    }
+
+    var countE = 0;
+    let expand = function (e) {
+        let exsp = countE % 2;
+        if (exsp !== 0) {
+            if (e.target.id === "expand") {
+                let contImg = document.getElementById("containerImg");
+                contImg.style.width = 640 + "px";
+                contImg.style.height = 380 + "px";
+                let img = document.getElementsByTagName("img");
+                for (let i = 0; i < img.length; i++) {
+                    img[i].style.height = 100 + "%";
+                    img[i].style.width = 100 + "%";
+                }
+
+                let dotCont = document.getElementById("dotContainer");
+                dotCont.style.width = 640 + "px";
+
+                let buttonCont = document.getElementById("buttonContainer");
+                buttonCont.style.width = 640 + "px";
+
+
+                let expand = document.getElementById("expand");
+                expand.style.left = 73 + "%";
+                expand.style.top = 20 + "%"
+            }
+        }
+
+        if (exsp === 0) {
+            if (e.target.id === "expand") {
+                let contImg = document.getElementById("containerImg");
+                contImg.style.width = 95 + "%";
+                contImg.style.height = 90 + "%";
+                let img = document.getElementsByTagName("img");
+                for (let i = 0; i < img.length; i++) {
+                    img[i].style.height = 100 + "%";
+                    img[i].style.width = 100 + "%";
+                }
+
+                let dotCont = document.getElementById("dotContainer");
+                dotCont.style.width = 95 + "%";
+
+                let buttonCont = document.getElementById("buttonContainer");
+                buttonCont.style.width = 95 + "%";
+
+
+                let expand = document.getElementById("expand");
+                expand.style.left = 93 + "%";
+                expand.style.top = 2 + "%"
+                exspBool = false;
+            }
+        }
+        countE++;
+    }
+
+
+    let button1VisibilityNone = function () {
+        let button1 = document.getElementById("button1").childNodes[0];
+        let cont1 = document.getElementById("buttonContainer").childNodes[1];
+        cont1.style.opacity = "0.3";
+        cont1.style.cursor = "none";
+        button1.style.opacity = "0.5";
+        button1.style.cursor = "none";
+    }
+
+    let button1VisibilityYes = function () {
+        let button1 = document.getElementById("button1").childNodes[0];
+        let cont1 = document.getElementById("buttonContainer").childNodes[1];
+        cont1.style.opacity = "1";
+        cont1.style.cursor = "pointer";
+        button1.style.opacity = "1";
+        button1.style.cursor = "pointer";
+    }
+
+
+    let button2VisibilityNone = function () {
+        let button2 = document.getElementById("button2").childNodes[0];
+        let cont2 = document.getElementById("buttonContainer").childNodes[3];
+        cont2.style.opacity = "0.3";
+        cont2.style.cursor = "none";
+        button2.style.opacity = "0.5";
+        button2.style.cursor = "none";
+    }
+
+    let button2VisibilityYes = function () {
+        let button2 = document.getElementById("button2").childNodes[0];
+        let cont2 = document.getElementById("buttonContainer").childNodes[3];
+        cont2.style.opacity = "1";
+        cont2.style.cursor = "pointer";
+        button2.style.opacity = "1";
+        button2.style.cursor = "pointer";
+    }
+
+    let button3VisibilityNone = function () {
+        let button3 = document.getElementById("button3").childNodes[0];
+        let cont3 = document.getElementById("buttonContainer").childNodes[5];
+        cont3.style.opacity = "0.3";
+        cont3.style.cursor = "none";
+        button3.style.opacity = "0.5";
+        button3.style.cursor = "none";
+    }
+
+    let button3VisibilityYes = function () {
+        let button3 = document.getElementById("button3").childNodes[0];
+        let cont3 = document.getElementById("buttonContainer").childNodes[5];
+        cont3.style.opacity = "1";
+        cont3.style.cursor = "pointer";
+        button3.style.opacity = "1";
+        button3.style.cursor = "pointer";
+    }
+
+
+    let button4VisibilityNone = function () {
+        let button4 = document.getElementById("button4").childNodes[0];
+        let cont4 = document.getElementById("buttonContainer").childNodes[7];
+        cont4.style.opacity = "0.3";
+        cont4.style.cursor = "none";
+        button4.style.opacity = "0.5";
+        button4.style.cursor = "none";
+    }
+
+    let button4VisibilityYes = function () {
+        let button4 = document.getElementById("button4").childNodes[0];
+        let cont4 = document.getElementById("buttonContainer").childNodes[7];
+        cont4.style.opacity = "1";
+        cont4.style.cursor = "pointer";
+        button4.style.opacity = "1";
+        button4.style.cursor = "pointer";
+    }
+
+    let button5VisibilityNone = function () {
+        let button5 = document.getElementById("button5").childNodes[0];
+        let cont5 = document.getElementById("buttonContainer").childNodes[9];
+        cont5.style.opacity = "0.3";
+        cont5.style.cursor = "none";
+        button5.style.opacity = "0.5";
+        button5.style.cursor = "none";
+    }
+
+    let button5VisibilityYes = function () {
+        let button5 = document.getElementById("button5").childNodes[0];
+        let cont5 = document.getElementById("buttonContainer").childNodes[9];
+        cont5.style.opacity = "1";
+        cont5.style.cursor = "pointer";
+        button5.style.opacity = "1";
+        button5.style.cursor = "pointer";
+    }
+
+    let pushDot0 = function (e) {
+        if (e.target.id === "dot0") {
+            button1VisibilityNone();
+            button2VisibilityNone();
+            button3VisibilityYes();
+            button4VisibilityYes();
+            button5VisibilityYes();
+        }
+    }
+    let pushDotEnd = function (e) {
+        let num = massWayImg.length - 1;
+        let dot = "dot" + num;
+        if (e.target.id === dot) {
+            button3VisibilityNone();
+            button4VisibilityNone();
+            button5VisibilityNone();
+            button1VisibilityYes();
+            button2VisibilityYes();
+        }
+    }
+
+    let pushMiddleDot = function (e) {
+        let dot;
+        for (let i = 1; i < massWayImg.length - 1; i++) {
+            dot = "dot" + i;
+            if (e.target.id === dot) {
+                button1VisibilityYes();
+                button2VisibilityYes();
+                button3VisibilityYes();
+                button4VisibilityYes();
+                button5VisibilityYes();
+            }
+        }
+
+    }
+
+
+    let pushButton1 = function (e) {
+        if (e.target.id === "button1" || e.target.parentNode.id === "button1") {
+            button1VisibilityNone();
+            button2VisibilityNone();
+            button3VisibilityYes();
+            button4VisibilityYes();
+            button5VisibilityYes();
+        }
+
+    }
+
+    let pushButton5 = function (e) {
+        if (e.target.id === "button5" || e.target.parentNode.id === "button5") {
+            button1VisibilityYes();
+            button2VisibilityYes();
+            button3VisibilityNone();
+            button4VisibilityNone();
+            button5VisibilityNone();
+        }
+
+    }
+
+
+    let subscriberPushButton2 = function (num) {
+        if (num === 1) {
+            button1VisibilityYes();
+            button2VisibilityYes();
+            button3VisibilityYes();
+            button4VisibilityYes();
+            button5VisibilityYes();
+        }
+        if (num === 2) {
+            button1VisibilityNone();
+            button2VisibilityNone();
+        }
+    }
+
+
+    let subscriberPushButton4 = function (num) {
+        if (num === 1) {
+            button1VisibilityYes();
+            button2VisibilityYes();
+            button3VisibilityYes();
+            button4VisibilityYes();
+            button5VisibilityYes();
+        }
+        if (num === 2) {
+            button1VisibilityYes();
+            button2VisibilityYes();
+            button3VisibilityNone();
+            button4VisibilityNone();
+            button5VisibilityNone();
+        }
+    }
+
+    let subscriberPushButton3 = function (num) {
+        if (num === 1) {
+            button1VisibilityYes();
+            button2VisibilityYes();
+            button3VisibilityYes();
+            button4VisibilityYes();
+            button5VisibilityYes();
+        }
+        if (num === 2) {
+            button1VisibilityYes();
+            button2VisibilityYes();
+            button3VisibilityNone();
+            button4VisibilityNone();
+            button5VisibilityNone();
+        }
+    }
+
+
+    button1VisibilityNone();
+    button2VisibilityNone();
+    addExpand();
+    containerPictures();
+    addDot();
+    switchPictures(count);
+
+
+    body.addEventListener('click', pushButton1);
+    body.addEventListener('click', pushDot0);
+    body.addEventListener('click', pushDotEnd);
+    body.addEventListener('click', eventFunction1);
+    body.addEventListener('click', eventFunction2);
+    body.addEventListener('click', expand);
+    body.addEventListener("click", pushMiddleDot);
+    body.addEventListener('click', pushButton5);
+
+
+</script>
+
+</body>
+</html>

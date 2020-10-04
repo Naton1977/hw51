@@ -1,0 +1,93 @@
+
+body {
+    height: 96vh;
+    display: flex;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    margin: auto;
+    position: relative;
+}
+
+#containerImg {
+    box-sizing: border-box;
+    width: 640px;
+    height: 380px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    position: relative;
+}
+
+#containerImg img {
+    transition: 1s opacity;
+}
+
+#dotContainer {
+    box-sizing: border-box;
+    width: 640px;
+    height: 25px;
+    border-width: 0 3px;
+    border-color: rgb(138, 138, 138);
+    border-style: solid;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#buttonContainer {
+    box-sizing: border-box;
+    width: 640px;
+    height: 50px;
+    border-style: solid;
+    border-width: 2px 3px 3px 3px;
+    border-color: rgb(138, 138, 138);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+}
+
+#img {
+    height: 100%;
+    width: 100%;
+}
+
+#buttonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#buttonContainer div {
+    width: 37px;
+    height: 37px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: rgb(44, 157, 194);
+    border-radius: 50%;
+    display: flex;
+}
+
+#button2, #button3, #button4, #button5 {
+    margin-left: 10px;
+}
+
+#buttonContainer div i {
+    margin: auto;
+    color: rgb(44, 157, 194);
+}
+
+#dotContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#dotContainer div {
+    border-color: rgb(44, 157, 194);
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 50%;
+}
