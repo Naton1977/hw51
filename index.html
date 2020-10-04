@@ -240,8 +240,11 @@
 
 
                 let expand = document.getElementById("expand");
-                expand.style.left = 73 + "%";
-                expand.style.top = 20 + "%"
+                let position = document.getElementById("containerImg").getBoundingClientRect();
+                let leftPosition = position.left + 580;
+                let topPosition = position.top + 15;
+                expand.style.left = leftPosition + "px"
+                expand.style.top = topPosition + "px";
             }
         }
 
