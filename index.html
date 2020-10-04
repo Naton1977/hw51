@@ -51,8 +51,11 @@
         elem.style.position = "absolute";
         elem.style.fontSize = 40 + "px";
         elem.style.color = "rgb(44,157,194)"
-        elem.style.left = 73 + "%";
-        elem.style.top = 20 + "%";
+        let position = document.getElementById("containerImg").getBoundingClientRect();
+        let leftPosition = position.left + 580;
+        let topPosition = position.top + 15;
+        elem.style.left = leftPosition + "px"
+        elem.style.top = topPosition + "px";
         elem.id = "expand";
         elem.style.cursor = "pointer";
         document.body.appendChild(elem);
@@ -258,13 +261,14 @@
 
                 let buttonCont = document.getElementById("buttonContainer");
                 buttonCont.style.width = 95 + "%";
-
-
-                let expand = document.getElementById("expand");
-                expand.style.left = 93 + "%";
-                expand.style.top = 2 + "%"
-                exspBool = false;
             }
+            let expand = document.getElementById("expand");
+            let position = document.getElementById("containerImg").getBoundingClientRect();
+            let leftPosition = position.left + position.width - 50;
+            let topPosition = position.top + 15;
+            expand.style.left = leftPosition + "px"
+            expand.style.top = topPosition + "px";
+            exspBool = false;
         }
         countE++;
     }
