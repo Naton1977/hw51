@@ -61,6 +61,7 @@
         document.body.appendChild(elem);
     }
 
+
     let addDot = function () {
         for (let i = 0; i < massWayImg.length; i++) {
             let dot = document.createElement("div");
@@ -240,6 +241,7 @@
 
 
                 let expand = document.getElementById("expand");
+                expand.className = "fas fa-expand-arrows-alt";
                 let position = document.getElementById("containerImg").getBoundingClientRect();
                 let leftPosition = position.left + 580;
                 let topPosition = position.top + 15;
@@ -264,14 +266,14 @@
 
                 let buttonCont = document.getElementById("buttonContainer");
                 buttonCont.style.width = 95 + "%";
+                let expand = document.getElementById("expand");
+                expand.className = "fas fa-compress-arrows-alt";
+                let position = document.getElementById("containerImg").getBoundingClientRect();
+                let leftPosition = position.left + position.width - 50;
+                let topPosition = position.top + 15;
+                expand.style.left = leftPosition + "px"
+                expand.style.top = topPosition + "px";
             }
-            let expand = document.getElementById("expand");
-            let position = document.getElementById("containerImg").getBoundingClientRect();
-            let leftPosition = position.left + position.width - 50;
-            let topPosition = position.top + 15;
-            expand.style.left = leftPosition + "px"
-            expand.style.top = topPosition + "px";
-            exspBool = false;
         }
         countE++;
     }
@@ -481,10 +483,10 @@
 
     button1VisibilityNone();
     button2VisibilityNone();
-    addExpand();
     containerPictures();
     addDot();
     switchPictures(count);
+    addExpand();
 
 
     body.addEventListener('click', pushButton1);
